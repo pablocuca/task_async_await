@@ -20,14 +20,13 @@ namespace BusinessLogic
             StringBuilder sb = sb = new StringBuilder();
             foreach (Alimento alimento in _alimento)
             {
-                sb.AppendLine(String.Format("Preparando alimento {0} as {1}", alimento.Tempo.ToString(), DateTime.Now.ToLongDateString()));
-                using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaSync.txt"))
-                {
-                    outfile.Write(sb.ToString());
-                }
-
+                sb.AppendLine(String.Format("Preparando alimento {0} as {1} {2}", alimento.Tempo.ToString(), DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString()));
                 Console.WriteLine("Preparando alimento {0}", alimento.Tempo.ToString());
                 alimento.Prepara();
+            }
+            using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaSync.txt"))
+            {
+                outfile.WriteLine(sb.ToString());
             }
 
             return _alimento.Count();

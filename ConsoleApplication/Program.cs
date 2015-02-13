@@ -28,9 +28,9 @@ namespace ConsoleApplication
             IList<Alimento> alimentos = new List<Alimento>();
             // passando como parametro na construcao do alimento o 
             // valor em gramas da quantidade do alimento
-            alimentos.Add(new Arroz(200));
-            alimentos.Add(new Feijao(150));
-            alimentos.Add(new Batata(50));
+            alimentos.Add(new Arroz(200 * 15));
+            alimentos.Add(new Feijao(150 * 15));
+            alimentos.Add(new Batata(50 * 15));
 
             #region Inciando preparo do prato com cozinha Async
             CozinhaAsync cozinhaAsync = new CozinhaAsync(alimentos);
@@ -49,9 +49,9 @@ namespace ConsoleApplication
             sb = new StringBuilder();
             sb.AppendLine(String.Format("Prato Pronto em {0} com {1} alimento(s) feito pela cozinha Async", elapsedTime, qtdeAlimentoProntos));
 
-            using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaAsync.txt"))
+            using (StreamWriter outfile = File.AppendText(mydocpath + @"\CozinhaAsync.txt"))
             {
-                outfile.Write(sb.ToString());
+                await outfile.WriteLineAsync(sb.ToString());
             }
 
             #endregion
@@ -73,9 +73,9 @@ namespace ConsoleApplication
             sb = new StringBuilder();
             sb.AppendLine(String.Format("Prato Pronto em {0} com {1} alimento(s) feito pela cozinha Sync", elapsedTime, qtdeAlimentoProntos));
 
-            using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaSync.txt"))
+            using (StreamWriter outfile = File.AppendText(mydocpath + @"\CozinhaSync.txt"))
             {
-                outfile.Write(sb.ToString());
+                outfile.WriteLine(sb.ToString());
             }
 
             #endregion

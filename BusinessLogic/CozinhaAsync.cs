@@ -17,26 +17,20 @@ namespace BusinessLogic
 
         public async Task<int> Ligar()
         {
-            return await Preparando();
-        }
-
-        private int Preparando()
-        {
-            int alimentoPronto = 0;
             string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             StringBuilder sb = sb = new StringBuilder();
             foreach (Alimento alimento in _alimento)
             {
-                sb.AppendLine(String.Format("Preparando alimento {0} as {1}", alimento.Tempo.ToString(), DateTime.Now.ToLongDateString()));
-                using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaAsync.txt"))
-                {
-                    outfile.Write(sb.ToString());
-                }
-
-                alimento.Prepara();
-                alimentoPronto++;
+                sb.AppendLine(String.Format("Preparando alimento {0} as {1} {2}", alimento.Tempo.ToString(), DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString()));
+                Console.WriteLine("Preparando alimento {0}", alimento.Tempo.ToString());
+                await alimento.PreparaAsync();
             }
-            return alimentoPronto;
+            using (StreamWriter outfile = new StreamWriter(mydocpath + @"\CozinhaAsync.txt"))
+            {
+                await outfile.WriteLineAsync(sb.ToString());
+            }
+
+            return _alimento.Count(); ;
         }
     }
 }
